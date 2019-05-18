@@ -18,7 +18,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         pStage = primaryStage;
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("new database - Task List");
+        primaryStage.setTitle("new database - Routine Scheduler");
         primaryStage.setScene(new Scene(root, 335, 600));
         primaryStage.sizeToScene();
         primaryStage.setResizable(false);

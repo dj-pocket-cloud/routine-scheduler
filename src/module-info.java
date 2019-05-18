@@ -1,4 +1,4 @@
-module Task.List {
+module Routine.Scheduler {
     requires javafx.fxml;
     requires javafx.controls;
 
