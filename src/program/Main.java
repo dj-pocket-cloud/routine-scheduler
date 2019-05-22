@@ -1,4 +1,4 @@
-package sample;
+package program;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -13,12 +13,13 @@ public class Main extends Application {
 
     static LocalDate currDate;
     private static Stage pStage;
+    private static SampleController mainController;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
         pStage = primaryStage;
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("new database - Routine Scheduler");
+        Parent root = FXMLLoader.load(getClass().getResource("/program/mainWindow.fxml"));
+        //primaryStage.setTitle("new database - Routine Scheduler");
         primaryStage.setScene(new Scene(root, 335, 600));
         primaryStage.sizeToScene();
         primaryStage.setResizable(false);
@@ -28,6 +29,14 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public static void setMainController(SampleController mc) {
+        mainController = mc;
+    }
+
+    public static SampleController getMainController() {
+        return mainController;
     }
 
     public static void setCurrDate(LocalDate date) {
@@ -40,5 +49,11 @@ public class Main extends Application {
 
     public static Stage getPStage() {
         return pStage;
+    }
+
+    public enum PRIORITY {
+        LOW,
+        MED,
+        HIGH
     }
 }
