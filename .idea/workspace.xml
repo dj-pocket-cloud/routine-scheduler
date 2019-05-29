@@ -2,21 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d4734ce4-a814-4a4e-a446-6d984d715cc8" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Routine Scheduler/sample/sample.fxml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Routine Scheduler/sample/taskAdd.fxml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Routine Scheduler/sample/taskEditor.fxml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Task List/sample/sample.fxml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Task List/sample/taskAdd.fxml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Task List/sample/taskEditor.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/program/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/program/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/program/SampleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/program/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/program/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/program/Task.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/program/TaskAddController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/program/TaskCreateController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/program/TaskEditController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/program/TaskEditController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/program/mainWindow.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/program/mainWindow.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/program/taskAdd.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/program/taskCreate.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/program/taskEditor.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/program/taskEditor.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/objects.png" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -39,8 +31,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/program/MainController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="313">
-              <caret line="228" column="43" selection-start-line="228" selection-start-column="43" selection-end-line="228" selection-end-column="43" />
+            <state relative-caret-position="194">
+              <caret line="221" column="58" lean-forward="true" selection-start-line="221" selection-start-column="58" selection-end-line="221" selection-end-column="58" />
               <folding>
                 <element signature="e#13243#13251#0" expanded="true" />
               </folding>
@@ -163,11 +155,6 @@
             <path>
               <item name="Routine Scheduler" type="b2602c69:ProjectViewProjectNode" />
               <item name="Task List" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Routine Scheduler" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Task List" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Routine Scheduler" type="b2602c69:ProjectViewProjectNode" />
@@ -394,8 +381,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/program/MainController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="313">
-          <caret line="228" column="43" selection-start-line="228" selection-start-column="43" selection-end-line="228" selection-end-column="43" />
+        <state relative-caret-position="194">
+          <caret line="221" column="58" lean-forward="true" selection-start-line="221" selection-start-column="58" selection-end-line="221" selection-end-column="58" />
           <folding>
             <element signature="e#13243#13251#0" expanded="true" />
           </folding>

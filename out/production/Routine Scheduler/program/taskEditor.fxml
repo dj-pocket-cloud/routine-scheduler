@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="446.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.TaskEditController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="446.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="program.TaskEditController">
    <children>
       <TabPane prefHeight="446.0" prefWidth="335.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -16,7 +15,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="307.0">
                      <children>
-                        <ListView prefHeight="378.0" prefWidth="335.0" />
+                        <ListView prefHeight="370.0" prefWidth="335.0" />
                         <Text layoutX="250.0" layoutY="398.0" strokeType="OUTSIDE" strokeWidth="0.0" text="n active tasks" textAlignment="RIGHT" />
                      </children>
                   </AnchorPane>
@@ -26,19 +25,13 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <ListView prefHeight="378.0" prefWidth="335.0" />
+                        <ListView prefHeight="370.0" prefWidth="335.0" />
                         <Text layoutX="236.0" layoutY="398.0" strokeType="OUTSIDE" strokeWidth="0.0" text="n archived tasks" textAlignment="RIGHT" />
+                        <Button fx:id="deleteAll" layoutX="14.0" layoutY="381.0" mnemonicParsing="false" text="Delete All" />
+                        <Button fx:id="unarchiveAll" layoutX="92.0" layoutY="381.0" mnemonicParsing="false" text="Unarchive All" />
                      </children>
                   </AnchorPane>
             </content>
-               <contextMenu>
-                  <ContextMenu>
-                    <items>
-                      <MenuItem mnemonicParsing="false" text="Delete All" />
-                        <MenuItem mnemonicParsing="false" text="Unarchive All" />
-                    </items>
-                  </ContextMenu>
-               </contextMenu>
           </Tab>
         </tabs>
       </TabPane>
