@@ -4,7 +4,6 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,16 +11,18 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
-public class SampleController {
+public class MainController {
 
     private static final String NEWFILENAME = "New List";
     private static final String VERSION = "0.01";
@@ -40,16 +41,20 @@ public class SampleController {
     @FXML private TableColumn completedCol;
     @FXML private TableColumn taskCol;
     @FXML private MenuItem about;
-
-    //TODO: when loading in data, put number of globalTasks at first line
-    //TODO: then assign task ids based on the order they were loaded
+    @FXML private ProgressIndicator progress;
+    @FXML private SplitMenuButton addTask;
+    @FXML private MenuItem addToWeek;
+    @FXML private MenuItem addToMonth;
 
     private int numTasks;
     private List<Task> globalTasks = new ArrayList<Task>();
     private boolean saved;
-    private boolean fileIsNew;
     private String fileName;
     private String tempFileName;
+    private File selectedFile;
+    private File currFile;
+    private FileChooser fc = new FileChooser();
+    private String initialDirectory;
 
     public void initialize() {
 
@@ -58,8 +63,14 @@ public class SampleController {
         Main.setMainController(this); //create a static reference to this controller
         fileName = NEWFILENAME;
         saved = true;
-        fileIsNew = true;
         updateTitle();
+        progress.setVisible(false);
+        fc.getExtensionFilters().addAll(
+          new FileChooser.ExtensionFilter("Routine Scheduler File", "*.rsf")
+        );
+        fc.setInitialFileName(NEWFILENAME);
+        //TODO: add a setting that lets the user change the initial directory
+        //fc.setInitialDirectory(new File(initialDirectory));
 
         /* // DATE PICKER // */
 
@@ -113,6 +124,7 @@ public class SampleController {
                                         Boolean old_val, Boolean new_val) {
                         task.setCompleted(new_val);
                         task.getTaskRef().setCompleted(Main.currDate, new_val);
+                        setSaved(false);
                     }
                 });
 
@@ -129,9 +141,9 @@ public class SampleController {
             @Override
             public void handle(ActionEvent actionEvent) {
                 try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/program/taskAdd.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/program/taskCreate.fxml"));
                     Parent root = (Parent)loader.load();
-                    TaskAddController controller = loader.<TaskAddController>getController();
+                    TaskCreateController controller = loader.<TaskCreateController>getController();
                     Stage stage = new Stage();
                     stage.setTitle("Add New Task");
                     stage.setScene(new Scene(root, 480, 358));
@@ -155,6 +167,7 @@ public class SampleController {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/program/taskEditor.fxml"));
                     Parent root = (Parent)loader.load();
                     TaskEditController controller = loader.<TaskEditController>getController();
+                    controller.setMode(false); //set to managing mode
                     Stage stage = new Stage();
                     stage.setTitle("Manage Task");
                     stage.setScene(new Scene(root, 335, 446));
@@ -183,13 +196,37 @@ public class SampleController {
             @Override
             public void handle(ActionEvent actionEvent) {
                 if (saved || showUnsavedDialog()) {
-                    //TODO: show a dialog to open a CSV after confirming that the user wants to open a new file
+                    fc.setTitle("Open Task File");
+                    selectedFile = fc.showOpenDialog(Main.getPStage());
+                    progress.setVisible(true);
 
-                    updateTitle();
-                    updateTable();
-                    saved = true;
-                    fileIsNew = false;
+                    //load from selected file
+                    if (selectedFile != null) {
+                        clearTasks();
+                        try {
+                            Scanner scanner = new Scanner(selectedFile);
+                            scanner.useDelimiter("¬");
+                            while(scanner.hasNext()) {
+                                String name = scanner.next();
+                                name = name.replaceAll("\\r|\\n", "");
+                                String description = scanner.next();
+                                Main.PRIORITY priority = makePriority(scanner.next());
+                                List<String> dates = makeDates(scanner.next());
+                                boolean archived = scanner.nextBoolean();
+
+                                addTask(new Task(name, description, priority, dates, archived));
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        fileName = selectedFile.getName();
+                        currFile = selectedFile;
+                        updateTitle();
+                        updateTable();
+                        setSaved(true);
+                    }
                 }
+                progress.setVisible(false);
             }
         };
         openFile.setOnAction(open);
@@ -199,13 +236,14 @@ public class SampleController {
             @Override
             public void handle(ActionEvent actionEvent) {
                 if (saved || showUnsavedDialog()) {
-                    //TODO: discard current data
+                    selectedFile = null;
+                    currFile = null;
+                    clearTasks();
 
                     fileName = NEWFILENAME;
                     updateTitle();
                     updateTable();
-                    saved = true;
-                    fileIsNew = true;
+                    setSaved(true);
                 }
             }
         };
@@ -215,14 +253,15 @@ public class SampleController {
         EventHandler<ActionEvent> save = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                if (fileIsNew) {
-                    tempFileName = openSaveDialog();
+                if (currFile == null) {
+                    saveFileAs.fire();
                 }
-                if (tempFileName != null) {
-                    fileName = tempFileName;
-                    tempFileName = fileName;
-                    saveFile(fileName);
-                    updateTitle();
+                else {
+                    boolean pass = saveFile(currFile);
+                    if (pass) {
+                        fileName = selectedFile.getName();
+                        updateTitle();
+                    }
                 }
             }
         };
@@ -232,12 +271,15 @@ public class SampleController {
         EventHandler<ActionEvent> saveAs = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                tempFileName = openSaveDialog();
-                if (tempFileName != null) {
-                    fileName = tempFileName;
-                    tempFileName = fileName;
-                    saveFile(fileName);
-                    updateTitle();
+                fc.setTitle("Save Task List");
+                selectedFile = fc.showSaveDialog(Main.getPStage());
+                if (selectedFile != null) {
+                    boolean pass = saveFile(selectedFile);
+                    if (pass) {
+                        currFile = selectedFile;
+                        fileName = selectedFile.getName();
+                        updateTitle();
+                    }
                 }
             }
         };
@@ -251,7 +293,7 @@ public class SampleController {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("About");
                 alert.setHeaderText("Routine Scheduler v." + VERSION);
-                alert.setContentText("Program author: Rachel Stevens\nWritten in Java using JavaFX");
+                alert.setContentText("Program author: Rachel Stevens\nWritten in Java using JavaFX and FXML");
                 alert.showAndWait();
             }
         };
@@ -265,8 +307,14 @@ public class SampleController {
         updateTable();
     }
 
+    public void clearTasks() {
+        globalTasks.clear();
+        updateTable();
+    }
+
     public void setSaved(boolean bool) {
         saved = bool;
+        updateTitle();
     }
 
     private boolean showUnsavedDialog() {
@@ -282,32 +330,41 @@ public class SampleController {
         return false;
     }
 
-    private String openSaveDialog() {
-        TextInputDialog dialog = new TextInputDialog(NEWFILENAME);
-        dialog.setTitle("Save Task List");
-        dialog.setHeaderText("Save As");
-        dialog.setContentText("Please set the saved filename: ");
+    private boolean saveFile(File file) {
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            for(int i = 0; i < globalTasks.size(); i++) {
+                writer.append(globalTasks.get(i).toString());
+                if (i != globalTasks.size()-1) {
+                    writer.append("¬\n");
+                }
+            }
 
-        Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()) {
-            return result.get();
+            writer.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error Saving File");
+            alert.setHeaderText(null);
+            alert.setContentText("The file failed to save.");
+            alert.showAndWait();
+            return false;
         }
 
-        return null;
-    }
-
-    private void saveFile(String fn) {
-        //TODO: save the csv file with given filename
-
         saved = true;
-        fileIsNew = false;
+        return true;
     }
 
     private void updateTitle() {
-        Main.getPStage().setTitle(fileName + " - Routine Scheduler");
+        if (saved) {
+            Main.getPStage().setTitle(fileName.replace(".rsf", "") + " - Routine Scheduler");
+        } else {
+            Main.getPStage().setTitle("● " + fileName.replace(".rsf", "") + " - Routine Scheduler");
+        }
     }
 
     private void updateTable() {
+        progress.setVisible(true);
         table.getItems().clear();
         for(int i = 0; i < globalTasks.size(); i++) {
             if (globalTasks.get(i).dateExists(Main.getCurrDate())) {
@@ -318,5 +375,26 @@ public class SampleController {
                 table.getItems().add(cdt);
             }
         }
+        progress.setVisible(false);
+    }
+
+    private Main.PRIORITY makePriority(String in) {
+        switch (in) {
+            case "LOW":
+                return Main.PRIORITY.LOW;
+            case "HIGH":
+                return Main.PRIORITY.HIGH;
+            default:
+                return Main.PRIORITY.MED;
+        }
+    }
+
+    private List<String> makeDates(String in) {
+        List<String> dates = new ArrayList<String>();
+        String[] inArray = in.split(", ");
+        List<String> inList = Arrays.asList(inArray);
+        dates.addAll(inList);
+
+        return dates;
     }
 }

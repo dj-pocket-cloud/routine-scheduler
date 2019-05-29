@@ -13,7 +13,7 @@ public class Main extends Application {
 
     static LocalDate currDate;
     private static Stage pStage;
-    private static SampleController mainController;
+    private static MainController mainController;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -31,11 +31,11 @@ public class Main extends Application {
         launch(args);
     }
 
-    public static void setMainController(SampleController mc) {
+    public static void setMainController(MainController mc) {
         mainController = mc;
     }
 
-    public static SampleController getMainController() {
+    public static MainController getMainController() {
         return mainController;
     }
 

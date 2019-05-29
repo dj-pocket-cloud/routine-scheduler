@@ -10,7 +10,6 @@ public class Task {
     //TODO: Date variables might have to be changed depending on how the rest of the code is implemented
     //TODO: use csv files for saving objects in this class
 
-    private int id;
     private String name;
     private String description;
     private Main.PRIORITY priority;
@@ -21,17 +20,12 @@ public class Task {
         //locked default constructor
     }
 
-    public Task(int id, String name, String description, Main.PRIORITY priority, List<String> dates, boolean archived) {
-        this.id = id;
+    public Task(String name, String description, Main.PRIORITY priority, List<String> dates, boolean archived) {
         this.name = name;
         this.description = description;
         this.priority = priority;
         this.dates.addAll(dates);
         this.archived = archived;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String getName() {
@@ -107,13 +101,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", priority=" + priority +
-                ", dates=" + dates +
-                ", archived=" + archived +
-                '}';
+        String dateString = dates.toString().replace("[", "").replace("]", "");
+        return name+'¬'+description+'¬'+priority+'¬'+dateString+'¬'+archived;
     }
 }
