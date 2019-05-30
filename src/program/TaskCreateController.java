@@ -21,6 +21,9 @@ public class TaskCreateController {
     @FXML private TextField nameField;
     @FXML private TextArea notesField;
     @FXML private ToggleGroup priority;
+    @FXML private RadioButton lowPriority;
+    @FXML private RadioButton medPriority;
+    @FXML private RadioButton highPriority;
     @FXML private Text errorText;
 
     private String taskName;
@@ -29,7 +32,6 @@ public class TaskCreateController {
     private List<String> taskDates = new ArrayList<String>();
     private String dateString;
     private Task taskRef;
-    private boolean updatingExistingTask;
 
     public void initialize() {
         EventHandler<ActionEvent> closeWindow = new EventHandler<ActionEvent>() {
@@ -48,7 +50,13 @@ public class TaskCreateController {
                 //TODO: currently only adding a task is implemented
                 if (!nameField.getText().isBlank() && !nameField.getText().matches(SECRET)) {
                     Main.getMainController().setSaved(false);
+                    nameField.setText(nameField.getText().replace("¬", ""));
+                    notesField.setText(notesField.getText().replace("¬", ""));
+                    if (taskRef != null) {
+                        Main.getMainController().removeTask(taskRef);
+                    }
                     Main.getMainController().addTask(createNew());
+                    Main.getMainController().updateTable();
                     Stage stage = (Stage) save.getScene().getWindow();
                     stage.close();
                 } else if (nameField.getText().matches(SECRET)) {
@@ -107,7 +115,24 @@ public class TaskCreateController {
         return task;
     }
 
-    private void updateTask() {
-        //TODO: make code for updating an existing task
+    public void setTaskRef(Task task) {
+        taskRef = task;
+        if (task != null) {
+            nameField.setText(task.getName());
+            notesField.setText(task.getDescription());
+            int index;
+            switch (task.getPriority()+"") {
+                case "LOW":
+                    index = 0;
+                    break;
+                case "HIGH":
+                    index = 2;
+                    break;
+                default:
+                    index = 1;
+                    break;
+            }
+            priority.selectToggle(priority.getToggles().get(index));
+        }
     }
 }

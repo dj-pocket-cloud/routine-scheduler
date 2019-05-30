@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -21,6 +22,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/program/mainWindow.fxml"));
         //primaryStage.setTitle("new database - Routine Scheduler");
         primaryStage.setScene(new Scene(root, 335, 600));
+        primaryStage.getScene().getStylesheets().add("program/default.css");
         primaryStage.sizeToScene();
         primaryStage.setResizable(false);
         primaryStage.initStyle(StageStyle.DECORATED);

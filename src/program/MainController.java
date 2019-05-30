@@ -3,14 +3,19 @@ package program;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -37,7 +42,7 @@ public class MainController {
     @FXML private MenuItem openFile;
     @FXML private MenuItem saveFile;
     @FXML private MenuItem saveFileAs;
-    @FXML private TableView table;
+    @FXML private TableView<CurrentDaysTasks> table;
     @FXML private TableColumn completedCol;
     @FXML private TableColumn taskCol;
     @FXML private MenuItem about;
@@ -69,7 +74,7 @@ public class MainController {
           new FileChooser.ExtensionFilter("Routine Scheduler File", "*.rsf")
         );
         fc.setInitialFileName(NEWFILENAME);
-        //TODO: add a setting that lets the user change the initial directory
+        //TODO: save an internal settings file that automatically sets the internal directory
         //fc.setInitialDirectory(new File(initialDirectory));
 
         /* // DATE PICKER // */
@@ -110,7 +115,7 @@ public class MainController {
 
         /* // TABLE // */
 
-
+        //add checkbox to first column
         completedCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<CurrentDaysTasks, CheckBox>, ObservableValue<CheckBox>>() {
             @Override
             public ObservableValue<CheckBox> call(
@@ -133,7 +138,77 @@ public class MainController {
             }
 
         });
+        //set second column to be clickable
         taskCol.setCellValueFactory(new PropertyValueFactory<>("task"));
+        taskCol.setCellFactory(new Callback<TableColumn, TableCell>() {
+            @Override
+            public TableCell call(TableColumn tableColumn) {
+                TableCell cell = new TableCell() {
+                    @Override
+                    protected void updateItem(Object item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item != null) {
+                            setText(item.toString());
+                        }
+                    }
+                };
+                cell.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        if (mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 2) {
+                            Task task = table.getItems().get(((TableCell)mouseEvent.getSource()).getIndex()).getTaskRef();
+                            try {
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/program/taskCreate.fxml"));
+                                Parent root = (Parent)loader.load();
+                                TaskCreateController controller = loader.<TaskCreateController>getController();
+                                controller.setCheckboxVisible(false);
+                                controller.setTaskRef(task);
+                                Stage stage = new Stage();
+                                stage.setTitle("Update Task " + task.getName());
+                                stage.setScene(new Scene(root, 480, 358));
+                                stage.sizeToScene();
+                                stage.setResizable(false);
+                                stage.show();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                });
+                return cell;
+            }
+        });
+
+        //color code rows based on priority
+        PseudoClass lowPriority = PseudoClass.getPseudoClass("lowPriority");
+        PseudoClass medPriority = PseudoClass.getPseudoClass("medPriority");
+        PseudoClass highPriority = PseudoClass.getPseudoClass("highPriority");
+        table.setRowFactory(new Callback<TableView<CurrentDaysTasks>, TableRow<CurrentDaysTasks>>() {
+            @Override
+            public TableRow<CurrentDaysTasks> call(TableView<CurrentDaysTasks> currentDaysTasksTableView) {
+                TableRow<CurrentDaysTasks> row = new TableRow<>();
+                row.itemProperty().addListener((obs, oldItem, newItem) -> {
+                    switch (newItem.getPriority()+"") {
+                        case "LOW":
+                            row.pseudoClassStateChanged(lowPriority, true);
+                            row.pseudoClassStateChanged(medPriority, false);
+                            row.pseudoClassStateChanged(highPriority, false);
+                            break;
+                        case "HIGH":
+                            row.pseudoClassStateChanged(lowPriority, false);
+                            row.pseudoClassStateChanged(medPriority, false);
+                            row.pseudoClassStateChanged(highPriority, true);
+                            break;
+                        default:
+                            row.pseudoClassStateChanged(lowPriority, false);
+                            row.pseudoClassStateChanged(medPriority, true);
+                            row.pseudoClassStateChanged(highPriority, false);
+                            break;
+                    }
+                });
+                return row;
+            }
+        });
 
         /* // ADD TASK // */
 
@@ -144,12 +219,13 @@ public class MainController {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/program/taskCreate.fxml"));
                     Parent root = (Parent)loader.load();
                     TaskCreateController controller = loader.<TaskCreateController>getController();
+                    controller.setCheckboxVisible(true);
+                    controller.setTaskRef(null);
                     Stage stage = new Stage();
                     stage.setTitle("Add New Task");
                     stage.setScene(new Scene(root, 480, 358));
                     stage.sizeToScene();
                     stage.setResizable(false);
-                    controller.setCheckboxVisible(true);
                     stage.show();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -191,7 +267,7 @@ public class MainController {
         };
         quit.setOnAction(quitApplication);
 
-        //open a csv file
+        //open a file
         EventHandler<ActionEvent> open = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -216,6 +292,7 @@ public class MainController {
 
                                 addTask(new Task(name, description, priority, dates, archived));
                             }
+                            scanner.close();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -303,13 +380,18 @@ public class MainController {
 
     public void addTask(Task task) {
         globalTasks.add(task);
-        System.out.println(task.toString());
-        updateTable();
+        //System.out.println(task.toString());
+        //updateTable();
+    }
+
+    public void removeTask(Task task) {
+        globalTasks.remove(task);
+        //updateTable();
     }
 
     public void clearTasks() {
         globalTasks.clear();
-        updateTable();
+        //updateTable();
     }
 
     public void setSaved(boolean bool) {
@@ -363,9 +445,10 @@ public class MainController {
         }
     }
 
-    private void updateTable() {
+    public void updateTable() {
         progress.setVisible(true);
         table.getItems().clear();
+        table.refresh();
         for(int i = 0; i < globalTasks.size(); i++) {
             if (globalTasks.get(i).dateExists(Main.getCurrDate())) {
                 CurrentDaysTasks cdt = new CurrentDaysTasks(globalTasks.get(i).getCompleted(Main.currDate),
@@ -375,6 +458,57 @@ public class MainController {
                 table.getItems().add(cdt);
             }
         }
+        //table sorting
+        table.sortPolicyProperty().set(new Callback<TableView<CurrentDaysTasks>, Boolean>() {
+            @Override
+            public Boolean call(TableView<CurrentDaysTasks> currentDaysTasksTableView) {
+                Comparator<CurrentDaysTasks> comparator = new Comparator<CurrentDaysTasks>() {
+                    @Override
+                    public int compare(CurrentDaysTasks o1, CurrentDaysTasks o2) {
+                        int o1Rank;
+                        int o2Rank;
+                        switch (o1.getPriority()+"") {
+                            case "LOW":
+                                o1Rank = 0;
+                                break;
+                            case "HIGH":
+                                o1Rank = 2;
+                                break;
+                            default:
+                                o1Rank = 1;
+                                break;
+                        }
+                        switch (o2.getPriority()+"") {
+                            case "LOW":
+                                o2Rank = 0;
+                                break;
+                            case "HIGH":
+                                o2Rank = 2;
+                                break;
+                            default:
+                                o2Rank = 1;
+                                break;
+                        }
+                        if (o1Rank > o2Rank) {
+                            return -1;
+                        } else if (o1Rank < o2Rank) {
+                            return 1;
+                        } else {
+                            if (o1.getTask().compareTo(o2.getTask()) < 0) {
+                                return -1;
+                            } else if (o1.getTask().compareTo(o2.getTask()) > 0) {
+                                return 1;
+                            } else {
+                                return 0;
+                            }
+                        }
+                    }
+                };
+                FXCollections.sort(table.getItems(), comparator);
+                return true;
+            }
+
+        });
         progress.setVisible(false);
     }
 

@@ -1,0 +1,23 @@
+.table-row-cell:lowPriority {
+    -fx-background-color: #c9e6ff
+}
+
+.table-row-cell:lowPriority:selected {
+    -fx-background-color: #38c3ff
+}
+
+.table-row-cell:medPriority {
+    -fx-background-color: #c9ffcd
+}
+
+.table-row-cell:medPriority:selected {
+    -fx-background-color: #11dd2c
+}
+
+.table-row-cell:highPriority {
+    -fx-background-color: #ffc9c9
+}
+
+.table-row-cell:highPriority:selected {
+    -fx-background-color: #ff5b5b
+}
