@@ -14,7 +14,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="program.MainController">
    <children>
-      <DatePicker fx:id="datePicker" layoutX="62.0" layoutY="40.0" prefHeight="26.0" prefWidth="109.0">
+      <DatePicker fx:id="datePicker" layoutX="43.0" layoutY="40.0" prefHeight="26.0" prefWidth="109.0">
       </DatePicker>
       <MenuBar prefHeight="26.0" prefWidth="335.0">
         <menus>
@@ -50,13 +50,11 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Button fx:id="nextDate" layoutX="171.0" layoutY="40.0" mnemonicParsing="false" text="&gt;" />
-      <Button fx:id="prevDate" layoutX="37.0" layoutY="40.0" mnemonicParsing="false" text="&lt;" />
-      <SplitMenuButton fx:id="addTask" layoutX="208.0" layoutY="40.0" mnemonicParsing="false" text="Add Task">
+      <Button fx:id="nextDate" layoutX="152.0" layoutY="40.0" mnemonicParsing="false" text="&gt;" />
+      <Button fx:id="prevDate" layoutX="18.0" layoutY="40.0" mnemonicParsing="false" text="&lt;" />
+      <SplitMenuButton fx:id="addTask" layoutX="208.0" layoutY="40.0" mnemonicParsing="false" text="Edit Calendar">
          <items>
-            <MenuItem fx:id="addToWeek" mnemonicParsing="false" text="Add to This Week" />
-            <MenuItem fx:id="addToMonth" mnemonicParsing="false" text="Add to This Month" />
-            <MenuItem fx:id="newTask" mnemonicParsing="false" text="New Task" />
+            <MenuItem fx:id="newTask" mnemonicParsing="false" text="Create New Task" />
             <MenuItem fx:id="manageTask" mnemonicParsing="false" text="Manage Tasks" />
          </items>
       </SplitMenuButton>

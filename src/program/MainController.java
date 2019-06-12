@@ -48,8 +48,6 @@ public class MainController {
     @FXML private MenuItem about;
     @FXML private ProgressIndicator progress;
     @FXML private SplitMenuButton addTask;
-    @FXML private MenuItem addToWeek;
-    @FXML private MenuItem addToMonth;
 
     private int numTasks;
     private List<Task> globalTasks = new ArrayList<Task>();
@@ -138,7 +136,7 @@ public class MainController {
             }
 
         });
-        //set second column to be clickable
+        //set second column to be clickable, load the task when it is clicked
         taskCol.setCellValueFactory(new PropertyValueFactory<>("task"));
         taskCol.setCellFactory(new Callback<TableColumn, TableCell>() {
             @Override
@@ -188,22 +186,24 @@ public class MainController {
             public TableRow<CurrentDaysTasks> call(TableView<CurrentDaysTasks> currentDaysTasksTableView) {
                 TableRow<CurrentDaysTasks> row = new TableRow<>();
                 row.itemProperty().addListener((obs, oldItem, newItem) -> {
-                    switch (newItem.getPriority()+"") {
-                        case "LOW":
-                            row.pseudoClassStateChanged(lowPriority, true);
-                            row.pseudoClassStateChanged(medPriority, false);
-                            row.pseudoClassStateChanged(highPriority, false);
-                            break;
-                        case "HIGH":
-                            row.pseudoClassStateChanged(lowPriority, false);
-                            row.pseudoClassStateChanged(medPriority, false);
-                            row.pseudoClassStateChanged(highPriority, true);
-                            break;
-                        default:
-                            row.pseudoClassStateChanged(lowPriority, false);
-                            row.pseudoClassStateChanged(medPriority, true);
-                            row.pseudoClassStateChanged(highPriority, false);
-                            break;
+                    if (newItem != null) {
+                        switch (newItem.getPriority() + "") {
+                            case "LOW":
+                                row.pseudoClassStateChanged(lowPriority, true);
+                                row.pseudoClassStateChanged(medPriority, false);
+                                row.pseudoClassStateChanged(highPriority, false);
+                                break;
+                            case "HIGH":
+                                row.pseudoClassStateChanged(lowPriority, false);
+                                row.pseudoClassStateChanged(medPriority, false);
+                                row.pseudoClassStateChanged(highPriority, true);
+                                break;
+                            default:
+                                row.pseudoClassStateChanged(lowPriority, false);
+                                row.pseudoClassStateChanged(medPriority, true);
+                                row.pseudoClassStateChanged(highPriority, false);
+                                break;
+                        }
                     }
                 });
                 return row;
@@ -212,6 +212,7 @@ public class MainController {
 
         /* // ADD TASK // */
 
+        //open the window to add a new task
         EventHandler<ActionEvent> addNewTask = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -236,6 +237,8 @@ public class MainController {
 
         /* // MANAGE TASKS // */
 
+        //open the window to manage tasks
+        //TODO: add functionality to this window in its controller class
         EventHandler<ActionEvent> openTaskEditor = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -243,7 +246,6 @@ public class MainController {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/program/taskEditor.fxml"));
                     Parent root = (Parent)loader.load();
                     TaskEditController controller = loader.<TaskEditController>getController();
-                    controller.setMode(false); //set to managing mode
                     Stage stage = new Stage();
                     stage.setTitle("Manage Task");
                     stage.setScene(new Scene(root, 335, 446));
@@ -364,6 +366,7 @@ public class MainController {
 
         /* // MISCELLANEOUS // */
 
+        //open a basic about window
         EventHandler<ActionEvent> openAboutWindow = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -381,17 +384,17 @@ public class MainController {
     public void addTask(Task task) {
         globalTasks.add(task);
         //System.out.println(task.toString());
-        //updateTable();
+        updateTable();
     }
 
     public void removeTask(Task task) {
         globalTasks.remove(task);
-        //updateTable();
+        updateTable();
     }
 
     public void clearTasks() {
         globalTasks.clear();
-        //updateTable();
+        updateTable();
     }
 
     public void setSaved(boolean bool) {
@@ -512,6 +515,7 @@ public class MainController {
         progress.setVisible(false);
     }
 
+    //convert a priority string to the PRIORITY enum
     private Main.PRIORITY makePriority(String in) {
         switch (in) {
             case "LOW":
@@ -523,6 +527,7 @@ public class MainController {
         }
     }
 
+    //add a string of dates to the dates list
     private List<String> makeDates(String in) {
         List<String> dates = new ArrayList<String>();
         String[] inArray = in.split(", ");
@@ -530,5 +535,9 @@ public class MainController {
         dates.addAll(inList);
 
         return dates;
+    }
+
+    public List<Task> getGlobalTasks() {
+        return globalTasks;
     }
 }
