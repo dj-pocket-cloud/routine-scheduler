@@ -17,15 +17,15 @@ public class ArchivedTasks {
         return task;
     }
 
-    public void setTask(String task) {
+    /*public void setTask(String task) {
         this.task = task;
-    }
+    }*/
 
     public Task getTaskRef() {
         return taskRef;
     }
 
-    public void setTaskRef(Task taskRef) {
+    /*public void setTaskRef(Task taskRef) {
         this.taskRef = taskRef;
-    }
+    }*/
 }

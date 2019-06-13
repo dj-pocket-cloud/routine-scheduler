@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
@@ -23,7 +22,8 @@
       <RadioButton fx:id="medPriority" layoutX="351.0" layoutY="19.0" mnemonicParsing="false" selected="true" text="Med" textFill="#0dae20" toggleGroup="$priority" />
       <RadioButton fx:id="highPriority" layoutX="407.0" layoutY="19.0" mnemonicParsing="false" text="High" textFill="#b94343" toggleGroup="$priority" />
       <Text fill="#858585" layoutX="252.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Priority" />
-      <CheckBox fx:id="checkbox" layoutX="14.0" layoutY="322.0" mnemonicParsing="false" selected="true" text="Add to currently selected date" />
       <Text fx:id="errorText" fill="#323232" layoutX="190.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add a task name" visible="false" x="50.0" y="50.0" />
+      <Text fx:id="archivedTaskWarning" fill="#323232" layoutX="89.0" layoutY="335.0" strokeType="OUTSIDE" strokeWidth="0.0" text="View-only mode" visible="false" />
+      <Button fx:id="addToCalendar" layoutX="14.0" layoutY="318.0" mnemonicParsing="false" text="Set Dates" />
    </children>
 </AnchorPane>

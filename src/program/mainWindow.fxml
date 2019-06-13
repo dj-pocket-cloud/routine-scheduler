@@ -2,19 +2,19 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckMenuItem?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ProgressIndicator?>
-<?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="program.MainController">
    <children>
-      <DatePicker fx:id="datePicker" layoutX="43.0" layoutY="40.0" prefHeight="26.0" prefWidth="109.0">
+      <DatePicker fx:id="datePicker" layoutX="43.0" layoutY="40.0" prefHeight="26.0" prefWidth="148.0">
       </DatePicker>
       <MenuBar prefHeight="26.0" prefWidth="335.0">
         <menus>
@@ -50,14 +50,17 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Button fx:id="nextDate" layoutX="152.0" layoutY="40.0" mnemonicParsing="false" text="&gt;" />
+      <Button fx:id="nextDate" layoutX="191.0" layoutY="40.0" mnemonicParsing="false" text="&gt;" />
       <Button fx:id="prevDate" layoutX="18.0" layoutY="40.0" mnemonicParsing="false" text="&lt;" />
-      <SplitMenuButton fx:id="addTask" layoutX="208.0" layoutY="40.0" mnemonicParsing="false" text="Edit Calendar">
-         <items>
-            <MenuItem fx:id="newTask" mnemonicParsing="false" text="Create New Task" />
-            <MenuItem fx:id="manageTask" mnemonicParsing="false" text="Manage Tasks" />
-         </items>
-      </SplitMenuButton>
+      <Button fx:id="manageTask" layoutX="230.0" layoutY="40.0" mnemonicParsing="false" text="Manage Tasks">
+         <contextMenu>
+            <ContextMenu>
+              <items>
+                <MenuItem fx:id="newTask" mnemonicParsing="false" text="New Task" />
+              </items>
+            </ContextMenu>
+         </contextMenu>
+      </Button>
       <ProgressIndicator fx:id="progress" layoutX="5.0" layoutY="44.0" prefHeight="18.0" prefWidth="25.0" visible="false" />
    </children>
 </AnchorPane>

@@ -36,7 +36,7 @@ public class MainController {
     @FXML private Button nextDate;
     @FXML private Button prevDate;
     @FXML private MenuItem newTask;
-    @FXML private MenuItem manageTask;
+    @FXML private Button manageTask;
     @FXML private MenuItem quit;
     @FXML private MenuItem newFile;
     @FXML private MenuItem openFile;
@@ -58,6 +58,7 @@ public class MainController {
     private File currFile;
     private FileChooser fc = new FileChooser();
     private String initialDirectory;
+    private TaskEditController tec;
 
     public void initialize() {
 
@@ -159,7 +160,7 @@ public class MainController {
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/program/taskCreate.fxml"));
                                 Parent root = (Parent)loader.load();
                                 TaskCreateController controller = loader.<TaskCreateController>getController();
-                                controller.setCheckboxVisible(false);
+                                controller.setFieldsDisabled(task.getArchived());
                                 controller.setTaskRef(task);
                                 Stage stage = new Stage();
                                 stage.setTitle("Update Task " + task.getName());
@@ -220,7 +221,7 @@ public class MainController {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/program/taskCreate.fxml"));
                     Parent root = (Parent)loader.load();
                     TaskCreateController controller = loader.<TaskCreateController>getController();
-                    controller.setCheckboxVisible(true);
+                    //controller.setCheckboxVisible(true);
                     controller.setTaskRef(null);
                     Stage stage = new Stage();
                     stage.setTitle("Add New Task");
@@ -238,17 +239,17 @@ public class MainController {
         /* // MANAGE TASKS // */
 
         //open the window to manage tasks
-        //TODO: add functionality to this window in its controller class
         EventHandler<ActionEvent> openTaskEditor = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/program/taskEditor.fxml"));
                     Parent root = (Parent)loader.load();
-                    TaskEditController controller = loader.<TaskEditController>getController();
+                    tec = loader.<TaskEditController>getController();
                     Stage stage = new Stage();
-                    stage.setTitle("Manage Task");
+                    stage.setTitle("Manage Tasks");
                     stage.setScene(new Scene(root, 335, 446));
+                    stage.getScene().getStylesheets().add("program/default.css");
                     stage.sizeToScene();
                     stage.show();
                 } catch (IOException e) {
@@ -461,7 +462,7 @@ public class MainController {
                 table.getItems().add(cdt);
             }
         }
-        //table sorting
+        //table sorting (rank order: active/archived -> priority -> task name)
         table.sortPolicyProperty().set(new Callback<TableView<CurrentDaysTasks>, Boolean>() {
             @Override
             public Boolean call(TableView<CurrentDaysTasks> currentDaysTasksTableView) {
@@ -470,39 +471,57 @@ public class MainController {
                     public int compare(CurrentDaysTasks o1, CurrentDaysTasks o2) {
                         int o1Rank;
                         int o2Rank;
-                        switch (o1.getPriority()+"") {
-                            case "LOW":
-                                o1Rank = 0;
-                                break;
-                            case "HIGH":
-                                o1Rank = 2;
-                                break;
-                            default:
-                                o1Rank = 1;
-                                break;
+                        int o1Archived;
+                        int o2Archived;
+                        if (o1.getTaskRef().getArchived()) {
+                            o1Archived = 1;
+                        } else {
+                            o1Archived = 0;
                         }
-                        switch (o2.getPriority()+"") {
-                            case "LOW":
-                                o2Rank = 0;
-                                break;
-                            case "HIGH":
-                                o2Rank = 2;
-                                break;
-                            default:
-                                o2Rank = 1;
-                                break;
+                        if (o2.getTaskRef().getArchived()) {
+                            o2Archived = 1;
+                        } else {
+                            o2Archived = 0;
                         }
-                        if (o1Rank > o2Rank) {
+                        if (o1Archived < o2Archived) {
                             return -1;
-                        } else if (o1Rank < o2Rank) {
+                        } else if (o1Archived > o2Archived) {
                             return 1;
                         } else {
-                            if (o1.getTask().compareTo(o2.getTask()) < 0) {
+                            switch (o1.getPriority() + "") {
+                                case "LOW":
+                                    o1Rank = 0;
+                                    break;
+                                case "HIGH":
+                                    o1Rank = 2;
+                                    break;
+                                default:
+                                    o1Rank = 1;
+                                    break;
+                            }
+                            switch (o2.getPriority() + "") {
+                                case "LOW":
+                                    o2Rank = 0;
+                                    break;
+                                case "HIGH":
+                                    o2Rank = 2;
+                                    break;
+                                default:
+                                    o2Rank = 1;
+                                    break;
+                            }
+                            if (o1Rank > o2Rank) {
                                 return -1;
-                            } else if (o1.getTask().compareTo(o2.getTask()) > 0) {
+                            } else if (o1Rank < o2Rank) {
                                 return 1;
                             } else {
-                                return 0;
+                                if (o1.getTask().compareTo(o2.getTask()) < 0) {
+                                    return -1;
+                                } else if (o1.getTask().compareTo(o2.getTask()) > 0) {
+                                    return 1;
+                                } else {
+                                    return 0;
+                                }
                             }
                         }
                     }
@@ -539,5 +558,9 @@ public class MainController {
 
     public List<Task> getGlobalTasks() {
         return globalTasks;
+    }
+
+    public TaskEditController getTaskEditController() {
+        return tec;
     }
 }

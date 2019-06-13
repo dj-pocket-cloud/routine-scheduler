@@ -16,7 +16,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="307.0">
                      <children>
-                        <Text layoutX="250.0" layoutY="398.0" strokeType="OUTSIDE" strokeWidth="0.0" text="n active tasks" textAlignment="RIGHT" />
+                        <Text fx:id="activeTasksIndicator" layoutX="250.0" layoutY="398.0" strokeType="OUTSIDE" strokeWidth="0.0" text="n active tasks" textAlignment="RIGHT" />
                         <TableView fx:id="activeTable" prefHeight="370.0" prefWidth="335.0">
                           <columns>
                             <TableColumn fx:id="archiveCol" prefWidth="70.0" />
@@ -26,6 +26,7 @@
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
                         </TableView>
+                        <Button fx:id="createTask" layoutX="14.0" layoutY="381.0" mnemonicParsing="false" text="Create Task" />
                      </children>
                   </AnchorPane>
             </content>
@@ -34,9 +35,9 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Text layoutX="236.0" layoutY="398.0" strokeType="OUTSIDE" strokeWidth="0.0" text="n archived tasks" textAlignment="RIGHT" />
-                        <Button fx:id="deleteAll" layoutX="14.0" layoutY="381.0" mnemonicParsing="false" text="Delete All" />
-                        <Button fx:id="unarchiveAll" layoutX="92.0" layoutY="381.0" mnemonicParsing="false" text="Unarchive All" />
+                        <Text fx:id="archivedTasksIndicator" layoutX="236.0" layoutY="398.0" strokeType="OUTSIDE" strokeWidth="0.0" text="n archived tasks" textAlignment="RIGHT" />
+                        <Button fx:id="deleteAll" layoutX="100.0" layoutY="381.0" mnemonicParsing="false" text="Delete All" />
+                        <Button fx:id="createTask1" layoutX="14.0" layoutY="381.0" mnemonicParsing="false" text="Create Task" />
                         <TableView fx:id="archivedTable" prefHeight="370.0" prefWidth="335.0">
                           <columns>
                             <TableColumn fx:id="deleteCol" prefWidth="58.0" />

@@ -1,13 +1,18 @@
 package program;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,9 +20,10 @@ public class TaskCreateController {
 
     private static final String SECRET = "uuddlrlrba";
 
-    @FXML private CheckBox checkbox;
+    //@FXML private CheckBox checkbox;
     @FXML private Button cancel;
     @FXML private Button save;
+    @FXML private Button addToCalendar;
     @FXML private TextField nameField;
     @FXML private TextArea notesField;
     @FXML private ToggleGroup priority;
@@ -25,6 +31,7 @@ public class TaskCreateController {
     @FXML private RadioButton medPriority;
     @FXML private RadioButton highPriority;
     @FXML private Text errorText;
+    @FXML private Text archivedTaskWarning;
 
     private String taskName;
     private String taskDescription;
@@ -57,6 +64,9 @@ public class TaskCreateController {
                     }
                     Main.getMainController().addTask(createNew());
                     Main.getMainController().updateTable();
+                    if (Main.getMainController().getTaskEditController() != null) {
+                        Main.getMainController().getTaskEditController().updateTables();
+                    }
                     Stage stage = (Stage) save.getScene().getWindow();
                     stage.close();
                 } else if (nameField.getText().matches(SECRET)) {
@@ -79,16 +89,43 @@ public class TaskCreateController {
             }
         };
         nameField.setOnKeyTyped(onType);
+
+        EventHandler<ActionEvent> showDatesWindow = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/program/addToCustom.fxml"));
+                    Parent root = (Parent)loader.load();
+                    AddToCustomController controller = loader.<AddToCustomController>getController();
+                    Stage stage = new Stage();
+                    stage.setTitle("Add Task to Dates");
+                    stage.setScene(new Scene(root, 275, 473));
+                    stage.sizeToScene();
+                    stage.setResizable(false);
+                    stage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        addToCalendar.setOnAction(showDatesWindow);
     }
 
-    public void setCheckboxVisible(boolean bool) {
-        if (bool) {
-            checkbox.setVisible(true);
-            checkbox.setDisable(false);
-        } else {
-            checkbox.setVisible(false);
-            checkbox.setDisable(true);
-        }
+    /*public void setCheckboxVisible(boolean bool) {
+        checkbox.setVisible(bool);
+        checkbox.setDisable(!bool);
+    }*/
+
+    public void setFieldsDisabled(boolean bool) {
+        nameField.setDisable(bool);
+        notesField.setDisable(bool);
+        save.setDisable(bool);
+        highPriority.setDisable(bool);
+        medPriority.setDisable(bool);
+        lowPriority.setDisable(bool);
+        archivedTaskWarning.setVisible(bool);
+        addToCalendar.setDisable(bool);
+
     }
 
     private Task createNew() {
@@ -107,10 +144,10 @@ public class TaskCreateController {
                 taskPriority = Main.PRIORITY.MED;
                 break;
         }
-        if (checkbox.isSelected()) {
+        /*if (checkbox.isSelected()) {
             dateString = Main.getCurrDate()+"|false";
             taskDates.add(dateString);
-        }
+        }*/
         Task task = new Task(taskName, taskDescription, taskPriority, taskDates, false);
         return task;
     }
