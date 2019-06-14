@@ -39,7 +39,7 @@ public class Main extends Application {
                 if (!getMainController().getSaved()) {
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                     alert.setTitle("Exiting Without Saving");
-                    alert.setContentText("The current task list is unsaved. It will be discarded if the program is closed without saving.");
+                    alert.setContentText("The current task list is unsaved. \nIt will be discarded if the program is closed without saving.");
 
                     ButtonType buttonTypeSave = new ButtonType("Save and Exit");
                     ButtonType buttonTypeClose = new ButtonType("Exit Without Saving");

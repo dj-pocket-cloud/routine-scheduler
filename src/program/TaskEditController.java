@@ -60,7 +60,7 @@ public class TaskEditController {
                     public void handle(ActionEvent actionEvent) {
                         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                         alert.setTitle("Confirm Archive");
-                        alert.setContentText("Archiving this task will sort it lower in lists and make it read-only.\nContinue?");
+                        alert.setContentText("Archiving this task will sort it lower and make it read-only.\nContinue?");
 
                         Optional<ButtonType> result = alert.showAndWait();
                         if (result.get() == ButtonType.OK) {

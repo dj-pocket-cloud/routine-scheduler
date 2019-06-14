@@ -3,14 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="d4734ce4-a814-4a4e-a446-6d984d715cc8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/program/AddToCustomController.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/program/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/program/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/program/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/program/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/program/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/program/Task.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/program/TaskCreateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/program/TaskCreateController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/program/TaskEditController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/program/TaskEditController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/program/addToCustom.fxml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/program/mainWindow.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/program/mainWindow.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/program/taskCreate.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/program/taskCreate.fxml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -24,16 +22,36 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/program/MainController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="980">
-              <caret line="253" column="17" lean-forward="true" selection-start-line="253" selection-start-column="17" selection-end-line="253" selection-end-column="17" />
+            <state relative-caret-position="164">
+              <caret line="499" column="41" selection-start-line="499" selection-start-column="37" selection-end-line="499" selection-end-column="41" />
               <folding>
-                <element signature="e#5356#5698#0" expanded="true" />
-                <element signature="e#5697#5698#0" expanded="true" />
-                <element signature="e#13002#13003#0" expanded="true" />
-                <element signature="e#13058#13059#0" expanded="true" />
-                <element signature="e#17987#17988#0" expanded="true" />
-                <element signature="e#23963#23964#0" expanded="true" />
-                <element signature="e#24046#24047#0" expanded="true" />
+                <element signature="e#21173#21174#0" expanded="true" />
+                <element signature="e#21201#21202#0" expanded="true" />
+                <element signature="e#27212#27213#0" expanded="true" />
+                <element signature="e#27246#27247#0" expanded="true" />
+                <element signature="e#27303#27304#0" expanded="true" />
+                <element signature="e#27329#27330#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/program/Task.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="7" column="19" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="19" />
+              <folding>
+                <element signature="e#836#837#0" expanded="true" />
+                <element signature="e#908#909#0" expanded="true" />
+                <element signature="e#980#981#0" expanded="true" />
+                <element signature="e#1080#1081#0" expanded="true" />
+                <element signature="e#1153#1154#0" expanded="true" />
+                <element signature="e#1248#1249#0" expanded="true" />
+                <element signature="e#1314#1315#0" expanded="true" />
+                <element signature="e#1683#1684#0" expanded="true" />
+                <element signature="e#2438#2439#0" expanded="true" />
+                <element signature="e#2527#2528#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -42,8 +60,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/program/TaskEditController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="296">
-              <caret line="106" column="51" lean-forward="true" selection-start-line="106" selection-start-column="51" selection-end-line="106" selection-end-column="51" />
+            <state relative-caret-position="680">
+              <caret line="62" column="85" selection-start-line="62" selection-start-column="85" selection-end-line="62" selection-end-column="85" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -54,25 +72,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/program/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="51" column="40" selection-start-line="51" selection-start-column="40" selection-end-line="51" selection-end-column="40" />
-              <folding>
-                <element signature="e#2766#2767#0" expanded="true" />
-                <element signature="e#2864#2865#0" expanded="true" />
-                <element signature="e#2957#2958#0" expanded="true" />
-                <element signature="e#3042#3043#0" expanded="true" />
-                <element signature="e#3118#3119#0" expanded="true" />
-                <element signature="e#3186#3187#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="238">
+              <caret line="41" column="78" selection-start-line="41" selection-start-column="78" selection-end-line="41" selection-end-column="78" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/program/TaskCreateController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="134" column="83" selection-start-line="134" selection-start-column="83" selection-end-line="134" selection-end-column="83" />
+            <state relative-caret-position="153">
+              <caret line="148" column="28" selection-start-line="148" selection-start-column="28" selection-end-line="148" selection-end-column="28" />
             </state>
           </provider>
         </entry>
@@ -95,15 +105,6 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/program/Task.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1360">
-              <caret line="103" column="79" selection-start-line="103" selection-start-column="79" selection-end-line="103" selection-end-column="79" />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -121,9 +122,7 @@
       <find>addTask</find>
       <find>selected</find>
       <find>table-row-cell</find>
-      <find>updateTable</find>
       <find>show</find>
-      <find>alert</find>
       <find>setChe</find>
       <find>manage</find>
       <find>addToC</find>
@@ -137,6 +136,13 @@
       <find>stage</find>
       <find>about</find>
       <find>showAndWai</find>
+      <find>addTa</find>
+      <find>updateTable</find>
+      <find>alert</find>
+      <find>rsf</find>
+      <find>load</find>
+      <find>txt</find>
+      <find>todo</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -156,17 +162,17 @@
         <option value="$PROJECT_DIR$/src/program/SampleController.java" />
         <option value="$PROJECT_DIR$/src/program/taskAddController.java" />
         <option value="$PROJECT_DIR$/src/program/taskAdd.fxml" />
-        <option value="$PROJECT_DIR$/src/program/Task.java" />
         <option value="$PROJECT_DIR$/src/program/default.css" />
         <option value="$PROJECT_DIR$/src/program/CurrentDaysTasks.java" />
         <option value="$PROJECT_DIR$/src/program/addToCustom.fxml" />
         <option value="$PROJECT_DIR$/src/program/ActiveTasks.java" />
         <option value="$PROJECT_DIR$/src/program/ArchivedTasks.java" />
         <option value="$PROJECT_DIR$/src/program/AddToCustomController.java" />
-        <option value="$PROJECT_DIR$/src/program/TaskEditController.java" />
-        <option value="$PROJECT_DIR$/src/program/MainController.java" />
-        <option value="$PROJECT_DIR$/src/program/Main.java" />
         <option value="$PROJECT_DIR$/src/program/TaskCreateController.java" />
+        <option value="$PROJECT_DIR$/src/program/TaskEditController.java" />
+        <option value="$PROJECT_DIR$/src/program/Main.java" />
+        <option value="$PROJECT_DIR$/src/program/MainController.java" />
+        <option value="$PROJECT_DIR$/src/program/Task.java" />
       </list>
     </option>
   </component>
@@ -182,12 +188,31 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="Routine Scheduler" type="b2602c69:ProjectViewProjectNode" />
               <item name="Task List" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Routine Scheduler" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Task List" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Routine Scheduler" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Task List" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+              <item name="production" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Routine Scheduler" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Task List" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+              <item name="production" type="462c0819:PsiDirectoryNode" />
+              <item name="Routine Scheduler" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Routine Scheduler" type="b2602c69:ProjectViewProjectNode" />
@@ -209,25 +234,25 @@
         </subPane>
       </pane>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/program" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/out/production/Routine Scheduler" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.general" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\ms133\IdeaProjects\Task List\src\program" />
-      <recent name="C:\Users\ms133\IdeaProjects\Task List\src" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\ms133\IdeaProjects\Task List\src" />
       <recent name="C:\Users\ms133\IdeaProjects\Task List\resources" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\ms133\IdeaProjects\Task List\out\production\Routine Scheduler" />
+      <recent name="C:\Users\ms133\IdeaProjects\Task List\src" />
+      <recent name="C:\Users\ms133\IdeaProjects\Task List\src\program" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -279,7 +304,7 @@
     <frame x="-7" y="-7" width="1550" height="848" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.152349" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15637584" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="UI Designer" order="3" />
@@ -314,8 +339,8 @@
     <entry file="file://$PROJECT_DIR$/src/objects/CompletedTasks.java" />
     <entry file="file://$PROJECT_DIR$/resources/objects.png" />
     <entry file="file://$PROJECT_DIR$/src/program/taskCreate.fxml">
-      <provider selected="true" editor-type-id="text-editor" />
       <provider editor-type-id="JavaFX-Scene-Builder" />
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/program/taskAdd.fxml" />
     <entry file="file://$PROJECT_DIR$/src/program/taskAddController.java" />
@@ -347,17 +372,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/program/addToCustom.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" selection-start-line="9" selection-end-line="9" />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/program/addToCustom.fxml" />
     <entry file="file://$PROJECT_DIR$/src/program/mainWindow.fxml">
-      <provider selected="true" editor-type-id="text-editor" />
       <provider editor-type-id="JavaFX-Scene-Builder" />
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/program/testIcon.png">
       <provider selected="true" editor-type-id="images" />
@@ -381,37 +399,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/program/taskEditor.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
           <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
         </state>
       </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/program/ActiveTasks.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/program/Task.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1360">
-          <caret line="103" column="79" selection-start-line="103" selection-start-column="79" selection-end-line="103" selection-end-column="79" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/program/AddToCustomController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="18" lean-forward="true" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/program/AddToCustomController.java" />
     <entry file="jar://C:/Program Files/Java/javafx-sdk-11.0.2/lib/javafx.controls.jar!/javafx/scene/control/MenuItem.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="100">
@@ -430,6 +425,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Help.rsf">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-329" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/program/TaskEditController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="680">
+          <caret line="62" column="85" selection-start-line="62" selection-start-column="85" selection-end-line="62" selection-end-column="85" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/program/ActiveTasks.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/program/CurrentDaysTasks.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -439,49 +456,52 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/program/Main.java">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="41" column="78" selection-start-line="41" selection-start-column="78" selection-end-line="41" selection-end-column="78" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/out/production/Routine Scheduler/Help.rsf">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/program/TaskCreateController.java">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
-          <caret line="51" column="40" selection-start-line="51" selection-start-column="40" selection-end-line="51" selection-end-column="40" />
-          <folding>
-            <element signature="e#2766#2767#0" expanded="true" />
-            <element signature="e#2864#2865#0" expanded="true" />
-            <element signature="e#2957#2958#0" expanded="true" />
-            <element signature="e#3042#3043#0" expanded="true" />
-            <element signature="e#3118#3119#0" expanded="true" />
-            <element signature="e#3186#3187#0" expanded="true" />
-          </folding>
+          <caret line="148" column="28" selection-start-line="148" selection-start-column="28" selection-end-line="148" selection-end-column="28" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/program/MainController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="980">
-          <caret line="253" column="17" lean-forward="true" selection-start-line="253" selection-start-column="17" selection-end-line="253" selection-end-column="17" />
+        <state relative-caret-position="164">
+          <caret line="499" column="41" selection-start-line="499" selection-start-column="37" selection-end-line="499" selection-end-column="41" />
           <folding>
-            <element signature="e#5356#5698#0" expanded="true" />
-            <element signature="e#5697#5698#0" expanded="true" />
-            <element signature="e#13002#13003#0" expanded="true" />
-            <element signature="e#13058#13059#0" expanded="true" />
-            <element signature="e#17987#17988#0" expanded="true" />
-            <element signature="e#23963#23964#0" expanded="true" />
-            <element signature="e#24046#24047#0" expanded="true" />
+            <element signature="e#21173#21174#0" expanded="true" />
+            <element signature="e#21201#21202#0" expanded="true" />
+            <element signature="e#27212#27213#0" expanded="true" />
+            <element signature="e#27246#27247#0" expanded="true" />
+            <element signature="e#27303#27304#0" expanded="true" />
+            <element signature="e#27329#27330#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/program/TaskEditController.java">
+    <entry file="file://$PROJECT_DIR$/src/program/Task.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="296">
-          <caret line="106" column="51" lean-forward="true" selection-start-line="106" selection-start-column="51" selection-end-line="106" selection-end-column="51" />
+        <state relative-caret-position="68">
+          <caret line="7" column="19" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="19" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#836#837#0" expanded="true" />
+            <element signature="e#908#909#0" expanded="true" />
+            <element signature="e#980#981#0" expanded="true" />
+            <element signature="e#1080#1081#0" expanded="true" />
+            <element signature="e#1153#1154#0" expanded="true" />
+            <element signature="e#1248#1249#0" expanded="true" />
+            <element signature="e#1314#1315#0" expanded="true" />
+            <element signature="e#1683#1684#0" expanded="true" />
+            <element signature="e#2438#2439#0" expanded="true" />
+            <element signature="e#2527#2528#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/program/TaskCreateController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="134" column="83" selection-start-line="134" selection-start-column="83" selection-end-line="134" selection-end-column="83" />
         </state>
       </provider>
     </entry>

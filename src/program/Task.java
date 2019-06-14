@@ -7,9 +7,6 @@ import java.util.List;
 
 public class Task {
 
-    //TODO: Date variables might have to be changed depending on how the rest of the code is implemented
-    //TODO: use csv files for saving objects in this class
-
     private String name;
     private String description;
     private Main.PRIORITY priority;
@@ -24,7 +21,9 @@ public class Task {
         this.name = name;
         this.description = description;
         this.priority = priority;
-        this.dates.addAll(dates);
+        if (dates != null) {
+            this.dates.addAll(dates);
+        }
         this.archived = archived;
     }
 

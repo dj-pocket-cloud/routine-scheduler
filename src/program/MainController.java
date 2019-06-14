@@ -23,17 +23,16 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.Buffer;
+import java.nio.BufferOverflowException;
 import java.time.LocalDate;
 import java.util.*;
 
 public class MainController {
 
     private static final String NEWFILENAME = "New List";
-    private static final String VERSION = "0.01";
+    private static final String VERSION = "0.9";
 
     @FXML private DatePicker datePicker;
     @FXML private Button nextDate;
@@ -50,7 +49,7 @@ public class MainController {
     @FXML private TableColumn taskCol;
     @FXML private MenuItem about;
     @FXML private ProgressIndicator progress;
-    @FXML private SplitMenuButton addTask;
+    @FXML private MenuItem helpMenu;
 
     private int numTasks;
     private List<Task> globalTasks = new ArrayList<Task>();
@@ -62,6 +61,7 @@ public class MainController {
     private FileChooser fc = new FileChooser();
     private String initialDirectory;
     private TaskEditController tec;
+    private boolean savable = true;
 
     public void initialize() {
 
@@ -73,11 +73,11 @@ public class MainController {
         updateTitle();
         progress.setVisible(false);
         fc.getExtensionFilters().addAll(
-          new FileChooser.ExtensionFilter("Routine Scheduler File", "*.rsf")
+          new FileChooser.ExtensionFilter("Routine Scheduler File", "*.rtnschf")
         );
         fc.setInitialFileName(NEWFILENAME);
-        //TODO: save an internal settings file that automatically sets the internal directory
-        //fc.setInitialDirectory(new File(initialDirectory));
+        initialDirectory = System.getProperty("user.dir");
+        fc.setInitialDirectory(new File(initialDirectory));
 
         /* // DATE PICKER // */
 
@@ -332,6 +332,7 @@ public class MainController {
                         updateTitle();
                         updateTable();
                         setSaved(true);
+                        savable = true;
                     }
                 }
                 progress.setVisible(false);
@@ -352,6 +353,7 @@ public class MainController {
                     updateTitle();
                     updateTable();
                     setSaved(true);
+                    savable = true;
                 }
             }
         };
@@ -361,15 +363,21 @@ public class MainController {
         EventHandler<ActionEvent> save = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                if (currFile == null) {
-                    saveFileAs.fire();
-                }
-                else {
-                    boolean pass = saveFile(currFile);
-                    if (pass) {
-                        fileName = selectedFile.getName();
-                        updateTitle();
+                if (savable) {
+                    if (currFile == null) {
+                        saveFileAs.fire();
+                    } else {
+                        boolean pass = saveFile(currFile);
+                        if (pass) {
+                            fileName = selectedFile.getName();
+                            updateTitle();
+                        }
                     }
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Help");
+                    alert.setContentText("The Help documentation cannot be saved. \nPlease close it to enable saving.");
+                    alert.showAndWait();
                 }
             }
         };
@@ -379,15 +387,22 @@ public class MainController {
         EventHandler<ActionEvent> saveAs = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                fc.setTitle("Save Task List");
-                selectedFile = fc.showSaveDialog(Main.getPStage());
-                if (selectedFile != null) {
-                    boolean pass = saveFile(selectedFile);
-                    if (pass) {
-                        currFile = selectedFile;
-                        fileName = selectedFile.getName();
-                        updateTitle();
+                if (savable) {
+                    fc.setTitle("Save Task List");
+                    selectedFile = fc.showSaveDialog(Main.getPStage());
+                    if (selectedFile != null) {
+                        boolean pass = saveFile(selectedFile);
+                        if (pass) {
+                            currFile = selectedFile;
+                            fileName = selectedFile.getName();
+                            updateTitle();
+                        }
                     }
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Help");
+                    alert.setContentText("The Help documentation cannot be saved. \nPlease close it to enable saving.");
+                    alert.showAndWait();
                 }
             }
         };
@@ -407,6 +422,157 @@ public class MainController {
             }
         };
         about.setOnAction(openAboutWindow);
+
+        //open help documentation
+        EventHandler<ActionEvent> openHelpFile = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if (saved || showUnsavedDialog()) {
+
+                    //load programmatically loaded tasks
+                    clearTasks();
+                    fileName = "Help.rtnschf";
+                    currFile = null;
+                    List<String> currDate = new ArrayList<String>();
+                    currDate.add(Main.getCurrDate()+"|false");
+                    //add all the tasks, one by one
+                    Task welcome = new Task("Here is the interactive help tutorial.",
+                            "",
+                            Main.PRIORITY.LOW,
+                            currDate,
+                            true);
+                    addTask(welcome);
+                    Task select = new Task("Select 'Manage Tasks' to get started!",
+                            "",
+                            Main.PRIORITY.LOW,
+                            currDate,
+                            true);
+                    addTask(select);
+                    Task documentation = new Task("Now double-click right here!",
+                            "Welcome to the Routine Scheduler! This program is designed to be a very basic\n" +
+                                    "\tway to track and develop routines throughout everyday life.\n" +
+                                    "\n" +
+                                    "In the Routine Scheduler, Tasks are representative of the routines to be tracked\n" +
+                                    "\tand developed. This window you're looking at right now, which is the Task\n" +
+                                    "\tEdit view, shows all the details of a selected Task. Along the top is the \n" +
+                                    "\tname field and priority tags, which affect how a Task is displayed \n" +
+                                    "\tthroughout the program. The middle contains the notes field which can \n" +
+                                    "\tonly be viewed through the Task Edit view, and near the bottom left is the \n" +
+                                    "\tdate tool which determines the dates the task is visible in through the \n" +
+                                    "\tCalendar view. Tasks are designed to be one contained object spread\n" +
+                                    "\tacross multiple dates, so updating a task here will update it wherever\n" +
+                                    "\tit is shown.\n" +
+                                    "\n" +
+                                    "The Manage Tasks view shows all tasks that are present in the current file,\n" +
+                                    "\tregardless of their dates. This is where tasks can be created, viewed, \n" +
+                                    "\tarchived, and deleted. This view features two separate tabs, one for Active\n" +
+                                    "\tTasks and one for Archived Tasks. When there's a Task you no longer wish\n" +
+                                    "\tto focus on, you can archive it which makes it so it can still be viewed and\n" +
+                                    "\trecovered later, if desired. Archived Tasks cannot be edited and will appear\n" +
+                                    "\tlower in the Calendar view until they are unarchived. Also, Active Tasks\n" +
+                                    "\tmust be archived before they can be permanently deleted; they cannot be\n" +
+                                    "\tremoved directly.\n" +
+                                    "\n" +
+                                    "Lastly, the Calendar view is where Tasks are viewed on a per-day basis. Along\n" +
+                                    "\tthe top are the date picker controls and the button to show the Manage\n" +
+                                    "\tTasks view. The date picker can be used to switch to a new date directly, or\n" +
+                                    "\tto advance through dates one at a time using the left and right buttons.\n" +
+                                    "\tThe rest of the window shows a list of every Task assigned to the current\n" +
+                                    "\tdate, which are ordered based on their priority tags. Double-clicking a task\n" +
+                                    "\twill display the Task Edit view, just like in the Manage Tasks view, and\n" +
+                                    "\tclicking the checkbox next to it lets you keep track of Tasks that you've\n" +
+                                    "\tcompleted throughout the day. Unlike all other apsects of a Task, the\n" +
+                                    "\tcompleted mark is tied to the date it's set, so you can have Tasks that have\n" +
+                                    "\tbeen completed on one day but not yet on another. \n" +
+                                    "\n" +
+                                    "That's the basics! Try creating a few dummy tasks here with different dates and\n" +
+                                    "\tpriority tags before starting a new file. Included in the Archived Tasks tab\n" +
+                                    "\tare a few sample Tasks that could be used.",
+                            Main.PRIORITY.MED,
+                            null,
+                            false);
+                    addTask(documentation);
+                    Task gameDesignExample = new Task("Game Design Project Plan",
+                            "When a Task is updated, it is updated across the entire calendar. So you could \n" +
+                                    "\tuse a continually-updated Task that contains the next steps towards a \n" +
+                                    "\thuge project, like so:\n" +
+                                    "\n" +
+                                    "TODO:\n" +
+                                    "\t- Implement rest of character roster\n" +
+                                    "\t- Fix bugs in higher-level AI\n" +
+                                    "\t- Playtest levels\n" +
+                                    "\t- Implement power-ups (almost done)\n" +
+                                    "\t- Record sound effects\n" +
+                                    "\n" +
+                                    "Important events:\n" +
+                                    "\t- Meeting next Monday\n" +
+                                    "\t- Tuesday break",
+                            Main.PRIORITY.HIGH,
+                            null,
+                            true);
+                    addTask(gameDesignExample);
+                    Task dinnnerDateExample = new Task("Dinner Date at 7:00 PM",
+                            "A single-use Task that could be assigned to one really important day. Not an\n" +
+                                    "\tintended use-case, but you could use a few of these.\n" +
+                                    "\n" +
+                                    "Could contain information such as an address or what to wear in this field.",
+                            Main.PRIORITY.MED,
+                            null,
+                            true);
+                    addTask(dinnnerDateExample);
+                    Task weeklyNotesExample = new Task("Weekly Notes (June 17-21)",
+                            "You could use a Task to record notes throughout a whole week, and review\n" +
+                                    "\tthem all in one place. Perhaps this would be handy for schoolwork!\n" +
+                                    "\n" +
+                                    "Monday:\n" +
+                                    "\t- History Test on Friday\n" +
+                                    "\t- Chapter 3 Math HW due next Monday\n" +
+                                    "\n" +
+                                    "Tuesday: \n" +
+                                    "\t- History: Boston Tea Party\n" +
+                                    "\n" +
+                                    "Wednesday:\n" +
+                                    "\t- Math: Pythagorean Theorem\n" +
+                                    "\t- Art Project due next Wednesday\n" +
+                                    "\n" +
+                                    "Thursday:\n" +
+                                    "\t- Nothing interesting today\n" +
+                                    "\t- Study for tomorrow's test!\n" +
+                                    "\n" +
+                                    "Friday: \n" +
+                                    "\t- what is posix",
+                            Main.PRIORITY.MED,
+                            null,
+                            true);
+                    addTask(weeklyNotesExample);
+                    Task workOutExample = new Task("Work Out Session (8:00 AM)",
+                            "You could have a task that contains a static list of routine items to complete, such\n" +
+                                    "\tas a work-out or grocery shopping list. For example, you could have this:\n" +
+                                    "\n" +
+                                    "- 100 push-ups\n" +
+                                    "- 100 sit-ups\n" +
+                                    "- 100 squats\n" +
+                                    "- 10km running",
+                            Main.PRIORITY.HIGH,
+                            null,
+                            true);
+                    addTask(workOutExample);
+                    Task miscExample = new Task("z",
+                            "There's probably a lot more that could be done with this! It is a scheduling/notes\n" +
+                                    "\tapp after all.",
+                            Main.PRIORITY.MED,
+                            null,
+                            true);
+                    addTask(miscExample);
+                    updateTitle();
+                    updateTable();
+                    setSaved(true);
+                    savable = false;
+                    progress.setVisible(false);
+                }
+            }
+        };
+        helpMenu.setOnAction(openHelpFile);
 
     } // end initialization
 
@@ -475,9 +641,9 @@ public class MainController {
 
     private void updateTitle() {
         if (saved) {
-            Main.getPStage().setTitle(fileName.replace(".rsf", "") + " - Routine Scheduler");
+            Main.getPStage().setTitle(fileName.replace(".rtnschf", "") + " - Routine Scheduler");
         } else {
-            Main.getPStage().setTitle("● " + fileName.replace(".rsf", "") + " - Routine Scheduler");
+            Main.getPStage().setTitle("● " + fileName.replace(".rtnschf", "") + " - Routine Scheduler");
         }
     }
 
@@ -563,6 +729,9 @@ public class MainController {
             }
 
         });
+        if (tec != null) {
+            tec.updateTables();
+        }
         progress.setVisible(false);
     }
 

@@ -152,8 +152,8 @@ public class TaskCreateController {
     }
 
     public void setFieldsDisabled(boolean bool) {
-        nameField.setDisable(bool);
-        notesField.setDisable(bool);
+        nameField.setEditable(!bool);
+        notesField.setEditable(!bool);
         save.setDisable(bool);
         highPriority.setDisable(bool);
         medPriority.setDisable(bool);
