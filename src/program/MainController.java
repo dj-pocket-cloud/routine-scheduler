@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -17,7 +18,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 import java.io.BufferedWriter;
@@ -122,6 +125,9 @@ public class MainController {
                 CurrentDaysTasks task = arg0.getValue();
                 CheckBox checkBox = new CheckBox();
                 checkBox.selectedProperty().setValue(task.isCompleted());
+                if (task.getTaskRef().getArchived()) {
+                    checkBox.setDisable(true);
+                }
 
                 checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
                     public void changed(ObservableValue<? extends Boolean> ov,
@@ -148,6 +154,11 @@ public class MainController {
                         super.updateItem(item, empty);
                         if (item != null) {
                             setText(item.toString());
+                            for (int i = 0; i < table.getItems().size(); i++) {
+                                if (table.getItems().get(i).getTask().equals(item.toString()) && table.getItems().get(i).getTaskRef().getArchived()) {
+                                    setStyle("-fx-text-fill: #7F7F7F;");
+                                }
+                            }
                         }
                     }
                 };
@@ -165,6 +176,7 @@ public class MainController {
                                 Stage stage = new Stage();
                                 stage.setTitle("Update Task " + task.getName());
                                 stage.setScene(new Scene(root, 480, 358));
+                                stage.initStyle(StageStyle.UTILITY);
                                 stage.sizeToScene();
                                 stage.setResizable(false);
                                 stage.show();
@@ -218,6 +230,7 @@ public class MainController {
             @Override
             public void handle(ActionEvent actionEvent) {
                 try {
+                    Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/program/taskCreate.fxml"));
                     Parent root = (Parent)loader.load();
                     TaskCreateController controller = loader.<TaskCreateController>getController();
@@ -226,6 +239,13 @@ public class MainController {
                     Stage stage = new Stage();
                     stage.setTitle("Add New Task");
                     stage.setScene(new Scene(root, 480, 358));
+                    stage.initStyle(StageStyle.UTILITY);
+                    if (Main.getPStage().getX() + 850 < primaryScreenBounds.getMaxX()) {
+                        stage.setX(Main.getPStage().getX() + 350);
+                    } else {
+                        stage.setX(Main.getPStage().getX() - 500);
+                    }
+                    stage.setY(Main.getPStage().getY());
                     stage.sizeToScene();
                     stage.setResizable(false);
                     stage.show();
@@ -243,6 +263,7 @@ public class MainController {
             @Override
             public void handle(ActionEvent actionEvent) {
                 try {
+                    Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/program/taskEditor.fxml"));
                     Parent root = (Parent)loader.load();
                     tec = loader.<TaskEditController>getController();
@@ -250,6 +271,13 @@ public class MainController {
                     stage.setTitle("Manage Tasks");
                     stage.setScene(new Scene(root, 335, 446));
                     stage.getScene().getStylesheets().add("program/default.css");
+                    stage.initStyle(StageStyle.UTILITY);
+                    if (Main.getPStage().getX() + 700 < primaryScreenBounds.getMaxX()) {
+                        stage.setX(Main.getPStage().getX() + 350);
+                    } else {
+                        stage.setX(Main.getPStage().getX() - 350);
+                    }
+                    stage.setY(Main.getPStage().getY());
                     stage.sizeToScene();
                     stage.show();
                 } catch (IOException e) {
@@ -401,6 +429,10 @@ public class MainController {
     public void setSaved(boolean bool) {
         saved = bool;
         updateTitle();
+    }
+
+    public boolean getSaved() {
+        return saved;
     }
 
     private boolean showUnsavedDialog() {
@@ -562,5 +594,18 @@ public class MainController {
 
     public TaskEditController getTaskEditController() {
         return tec;
+    }
+
+    public void saveFileFromMain() {
+        if (currFile == null) {
+            saveFileAs.fire();
+        }
+        else {
+            boolean pass = saveFile(currFile);
+            if (pass) {
+                fileName = selectedFile.getName();
+                updateTitle();
+            }
+        }
     }
 }

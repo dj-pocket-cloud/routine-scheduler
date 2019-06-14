@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
@@ -23,7 +24,8 @@
       <RadioButton fx:id="highPriority" layoutX="407.0" layoutY="19.0" mnemonicParsing="false" text="High" textFill="#b94343" toggleGroup="$priority" />
       <Text fill="#858585" layoutX="252.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Priority" />
       <Text fx:id="errorText" fill="#323232" layoutX="190.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add a task name" visible="false" x="50.0" y="50.0" />
-      <Text fx:id="archivedTaskWarning" fill="#323232" layoutX="89.0" layoutY="335.0" strokeType="OUTSIDE" strokeWidth="0.0" text="View-only mode" visible="false" />
-      <Button fx:id="addToCalendar" layoutX="14.0" layoutY="318.0" mnemonicParsing="false" text="Set Dates" />
+      <Text fx:id="archivedTaskWarning" fill="#323232" layoutX="142.0" layoutY="335.0" strokeType="OUTSIDE" strokeWidth="0.0" text="View-only mode" visible="false" />
+      <DatePicker fx:id="datePicker" layoutX="13.0" layoutY="318.0" prefHeight="25.0" prefWidth="118.0" promptText="add to dates" />
+      <Text fx:id="taskExistsWarning" fill="#323232" layoutX="198.0" layoutY="335.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Task name already exists" visible="false" />
    </children>
 </AnchorPane>

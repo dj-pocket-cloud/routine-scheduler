@@ -1,14 +1,21 @@
 package program;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 public class Main extends Application {
 
@@ -26,6 +33,34 @@ public class Main extends Application {
         primaryStage.sizeToScene();
         primaryStage.setResizable(false);
         primaryStage.initStyle(StageStyle.DECORATED);
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent windowEvent) {
+                if (!getMainController().getSaved()) {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Exiting Without Saving");
+                    alert.setContentText("The current task list is unsaved. It will be discarded if the program is closed without saving.");
+
+                    ButtonType buttonTypeSave = new ButtonType("Save and Exit");
+                    ButtonType buttonTypeClose = new ButtonType("Exit Without Saving");
+                    ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+                    alert.getButtonTypes().setAll(buttonTypeSave, buttonTypeClose, buttonTypeCancel);
+
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.get() == buttonTypeSave) {
+                        getMainController().saveFileFromMain();
+                        Platform.exit();
+                    } else if (result.get() == buttonTypeClose) {
+                        //close without saving
+                        Platform.exit();
+                    } else {
+                        windowEvent.consume();
+                    }
+                } else {
+                    Platform.exit();
+                }
+            }
+        });
         primaryStage.show();
     }
 

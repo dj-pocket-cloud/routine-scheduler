@@ -11,8 +11,10 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +25,6 @@ public class TaskCreateController {
     //@FXML private CheckBox checkbox;
     @FXML private Button cancel;
     @FXML private Button save;
-    @FXML private Button addToCalendar;
     @FXML private TextField nameField;
     @FXML private TextArea notesField;
     @FXML private ToggleGroup priority;
@@ -32,6 +33,8 @@ public class TaskCreateController {
     @FXML private RadioButton highPriority;
     @FXML private Text errorText;
     @FXML private Text archivedTaskWarning;
+    @FXML private DatePicker datePicker;
+    @FXML private Text taskExistsWarning;
 
     private String taskName;
     private String taskDescription;
@@ -39,6 +42,8 @@ public class TaskCreateController {
     private List<String> taskDates = new ArrayList<String>();
     private String dateString;
     private Task taskRef;
+
+    private String nameOfCurrentTask;
 
     public void initialize() {
         EventHandler<ActionEvent> closeWindow = new EventHandler<ActionEvent>() {
@@ -53,9 +58,7 @@ public class TaskCreateController {
         EventHandler<ActionEvent> saveTask = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                //TODO: differentiate between updating a task and adding a completely new one
-                //TODO: currently only adding a task is implemented
-                if (!nameField.getText().isBlank() && !nameField.getText().matches(SECRET)) {
+                if (!nameField.getText().isBlank() && !checkAlreadyExists(nameField.getText()) && !nameField.getText().matches(SECRET)) {
                     Main.getMainController().setSaved(false);
                     nameField.setText(nameField.getText().replace("¬", ""));
                     notesField.setText(notesField.getText().replace("¬", ""));
@@ -76,7 +79,11 @@ public class TaskCreateController {
                     alert.setContentText("You can now play as \uD83D\uDC68\u200D\uD83D\uDD27 Luigi.");
                     alert.showAndWait();
                 } else {
-                    errorText.setVisible(true);
+                    if (nameField.getText().isBlank()) {
+                        errorText.setVisible(true);
+                    } else {
+                        taskExistsWarning.setVisible(true);
+                    }
                 }
             }
         };
@@ -86,35 +93,63 @@ public class TaskCreateController {
             @Override
             public void handle(KeyEvent keyEvent) {
                 errorText.setVisible(false);
+                taskExistsWarning.setVisible(false);
             }
         };
         nameField.setOnKeyTyped(onType);
 
-        EventHandler<ActionEvent> showDatesWindow = new EventHandler<ActionEvent>() {
+        EventHandler<ActionEvent> selectDate = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/program/addToCustom.fxml"));
-                    Parent root = (Parent)loader.load();
-                    AddToCustomController controller = loader.<AddToCustomController>getController();
-                    Stage stage = new Stage();
-                    stage.setTitle("Add Task to Dates");
-                    stage.setScene(new Scene(root, 275, 473));
-                    stage.sizeToScene();
-                    stage.setResizable(false);
-                    stage.show();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                boolean exists = false;
+                for (int i = 0; i < taskDates.size(); i++) {
+                    if (taskDates.get(i).contains(datePicker.getValue()+"")) {
+                        exists = true;
+                        taskDates.remove(i);
+                        break;
+                    }
                 }
+                if (!exists) {
+                    dateString = datePicker.getValue() + "|false";
+                    taskDates.add(dateString);
+                }
+                datePicker.setValue(null);
             }
         };
-        addToCalendar.setOnAction(showDatesWindow);
-    }
+        datePicker.setOnAction(selectDate);
 
-    /*public void setCheckboxVisible(boolean bool) {
-        checkbox.setVisible(bool);
-        checkbox.setDisable(!bool);
-    }*/
+        datePicker.setDayCellFactory(new Callback<DatePicker, DateCell>() {
+            @Override
+            public DateCell call(DatePicker datePicker) {
+                DateCell cell = new DateCell() {
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item != null) {
+                            for (int i = 0; i < taskDates.size(); i++) {
+                                if (taskDates.get(i).contains(item+"")) {
+                                    int priorityRank;
+                                    RadioButton selected = (RadioButton)priority.getSelectedToggle();
+                                    switch (selected.getText()) {
+                                        case "Low":
+                                            setStyle("-fx-background-color: #C1EDFF;");
+                                            break;
+                                        case "High":
+                                            setStyle("-fx-background-color: #ffc0cb;");
+                                            break;
+                                        default:
+                                            setStyle("-fx-background-color: #C1FFC9;");
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                };
+                return cell;
+            }
+        });
+    }
 
     public void setFieldsDisabled(boolean bool) {
         nameField.setDisable(bool);
@@ -124,7 +159,7 @@ public class TaskCreateController {
         medPriority.setDisable(bool);
         lowPriority.setDisable(bool);
         archivedTaskWarning.setVisible(bool);
-        addToCalendar.setDisable(bool);
+        datePicker.setDisable(bool);
 
     }
 
@@ -156,7 +191,9 @@ public class TaskCreateController {
         taskRef = task;
         if (task != null) {
             nameField.setText(task.getName());
+            nameOfCurrentTask = task.getName();
             notesField.setText(task.getDescription());
+            taskDates = taskRef.getDates();
             int index;
             switch (task.getPriority()+"") {
                 case "LOW":
@@ -171,5 +208,14 @@ public class TaskCreateController {
             }
             priority.selectToggle(priority.getToggles().get(index));
         }
+    }
+
+    private boolean checkAlreadyExists(String name) {
+        for (int i = 0; i < Main.getMainController().getGlobalTasks().size(); i++) {
+            if (Main.getMainController().getGlobalTasks().get(i).getName().equals(name) && !nameOfCurrentTask.equals(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -17,6 +17,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -59,12 +60,13 @@ public class TaskEditController {
                     public void handle(ActionEvent actionEvent) {
                         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                         alert.setTitle("Confirm Archive");
-                        alert.setContentText("Archiving this task will hide it and make it read-only.\nContinue?");
+                        alert.setContentText("Archiving this task will sort it lower in lists and make it read-only.\nContinue?");
 
                         Optional<ButtonType> result = alert.showAndWait();
                         if (result.get() == ButtonType.OK) {
                             task.getTaskRef().setArchived(true);
                             updateTables();
+                            mainController.updateTable();
                         }
                     }
                 };
@@ -101,6 +103,7 @@ public class TaskEditController {
                                 Stage stage = new Stage();
                                 stage.setTitle("Update Task " + task.getName());
                                 stage.setScene(new Scene(root, 480, 358));
+                                stage.initStyle(StageStyle.UTILITY);
                                 stage.sizeToScene();
                                 stage.setResizable(false);
                                 stage.show();
@@ -135,6 +138,7 @@ public class TaskEditController {
                         if (result.get() == ButtonType.OK) {
                             mainController.removeTask(task.getTaskRef());
                             updateTables();
+                            mainController.updateTable();
                         }
                     }
                 };
@@ -157,12 +161,13 @@ public class TaskEditController {
                     public void handle(ActionEvent actionEvent) {
                         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                         alert.setTitle("Confirm Unarchive");
-                        alert.setContentText("This task will be shown again and will be editable.\nContinue?");
+                        alert.setContentText("This task will be sorted regularly and will be editable.\nContinue?");
 
                         Optional<ButtonType> result = alert.showAndWait();
                         if (result.get() == ButtonType.OK) {
                             task.getTaskRef().setArchived(false);
                             updateTables();
+                            mainController.updateTable();
                         }
                     }
                 };
@@ -199,6 +204,7 @@ public class TaskEditController {
                                 Stage stage = new Stage();
                                 stage.setTitle("Update Task " + task.getName());
                                 stage.setScene(new Scene(root, 480, 358));
+                                stage.initStyle(StageStyle.UTILITY);
                                 stage.sizeToScene();
                                 stage.setResizable(false);
                                 stage.show();
@@ -285,6 +291,7 @@ public class TaskEditController {
                     Stage stage = new Stage();
                     stage.setTitle("Add New Task");
                     stage.setScene(new Scene(root, 480, 358));
+                    stage.initStyle(StageStyle.UTILITY);
                     stage.sizeToScene();
                     stage.setResizable(false);
                     stage.show();
@@ -311,6 +318,7 @@ public class TaskEditController {
                         }
                     }
                     updateTables();
+                    mainController.updateTable();
                 }
             }
         };
