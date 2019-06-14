@@ -58,7 +58,7 @@ public class TaskCreateController {
         EventHandler<ActionEvent> saveTask = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                if (!nameField.getText().isBlank() && !checkAlreadyExists(nameField.getText()) && !nameField.getText().matches(SECRET)) {
+                if (!nameField.getText().isEmpty() && !checkAlreadyExists(nameField.getText()) && !nameField.getText().matches(SECRET)) {
                     Main.getMainController().setSaved(false);
                     nameField.setText(nameField.getText().replace("¬", ""));
                     notesField.setText(notesField.getText().replace("¬", ""));
@@ -79,7 +79,7 @@ public class TaskCreateController {
                     alert.setContentText("You can now play as \uD83D\uDC68\u200D\uD83D\uDD27 Luigi.");
                     alert.showAndWait();
                 } else {
-                    if (nameField.getText().isBlank()) {
+                    if (nameField.getText().isEmpty()) {
                         errorText.setVisible(true);
                     } else {
                         taskExistsWarning.setVisible(true);

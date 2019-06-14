@@ -240,12 +240,6 @@ public class MainController {
                     stage.setTitle("Add New Task");
                     stage.setScene(new Scene(root, 480, 358));
                     stage.initStyle(StageStyle.UTILITY);
-                    if (Main.getPStage().getX() + 850 < primaryScreenBounds.getMaxX()) {
-                        stage.setX(Main.getPStage().getX() + 350);
-                    } else {
-                        stage.setX(Main.getPStage().getX() - 500);
-                    }
-                    stage.setY(Main.getPStage().getY());
                     stage.sizeToScene();
                     stage.setResizable(false);
                     stage.show();
@@ -279,6 +273,7 @@ public class MainController {
                     }
                     stage.setY(Main.getPStage().getY());
                     stage.sizeToScene();
+                    stage.setResizable(false);
                     stage.show();
                 } catch (IOException e) {
                     e.printStackTrace();

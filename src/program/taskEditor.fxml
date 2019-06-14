@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="446.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="program.TaskEditController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="446.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/8.0.211" xmlns:fx="http://javafx.com/fxml/1" fx:controller="program.TaskEditController">
    <children>
       <TabPane prefHeight="446.0" prefWidth="335.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -22,9 +22,6 @@
                             <TableColumn fx:id="archiveCol" prefWidth="70.0" />
                             <TableColumn fx:id="activeTaskCol" prefWidth="263.0" text="Task" />
                           </columns>
-                           <columnResizePolicy>
-                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                           </columnResizePolicy>
                         </TableView>
                         <Button fx:id="createTask" layoutX="14.0" layoutY="381.0" mnemonicParsing="false" text="Create Task" />
                      </children>
